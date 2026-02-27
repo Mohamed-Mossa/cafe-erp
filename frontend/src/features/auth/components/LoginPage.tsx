@@ -1,5 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../api/authApi';
 import { setCredentials } from '../store/authSlice';
 
@@ -8,6 +9,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
 
   const handleSubmit = async (e: FormEvent) => {
@@ -16,6 +18,7 @@ export default function LoginPage() {
     try {
       const result = await login({ username, password }).unwrap();
       dispatch(setCredentials(result.data));
+      navigate('/', { replace: true });
     } catch {
       setError('Invalid username or password');
     }

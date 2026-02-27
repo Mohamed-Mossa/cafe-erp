@@ -12,6 +12,6 @@ public class CafeTable extends BaseEntity {
     @Enumerated(EnumType.STRING) @Column(nullable = false, length = 15) @Builder.Default
     private TableStatus status = TableStatus.FREE;
     private UUID currentOrderId;
-    @Column(nullable = false) @Builder.Default private int positionX = 0;
-    @Column(nullable = false) @Builder.Default private int positionY = 0;
+    @Column(name = "position_x", nullable = false) @Builder.Default private int positionX = 0;
+    @Column(name = "position_y", nullable = false) @Builder.Default private int positionY = 0;
 }

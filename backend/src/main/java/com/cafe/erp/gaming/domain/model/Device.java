@@ -12,7 +12,7 @@ public class Device extends BaseEntity {
     @Column(nullable = false, precision = 8, scale = 2) private BigDecimal singleRate;
     @Column(nullable = false, precision = 8, scale = 2) private BigDecimal multiRate;
     @Enumerated(EnumType.STRING) @Column(nullable = false, length = 20) @Builder.Default private DeviceStatus status = DeviceStatus.FREE;
-    private int positionX;
-    private int positionY;
+    @Column(name = "position_x", nullable = false) @Builder.Default private int positionX = 0;
+    @Column(name = "position_y", nullable = false) @Builder.Default private int positionY = 0;
     @Builder.Default private boolean active = true;
 }

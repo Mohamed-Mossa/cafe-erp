@@ -9,8 +9,10 @@ import com.cafe.erp.shared.domain.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,6 +21,20 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final PasswordEncoder passwordEncoder;
+
+    @Value("${app.generate-password-hash:false}")
+    private boolean generatePasswordHash;
+
+    /** Dev only: GET /auth/dev/hash returns BCrypt hash for "Admin@123". Set app.generate-password-hash=true, call once, put hash in V12 migration, then set back to false and remove this. */
+    @GetMapping("/dev/hash")
+    public ResponseEntity<ApiResponse<String>> devHash() {
+        if (!generatePasswordHash) {
+            return ResponseEntity.notFound().build();
+        }
+        String hash = passwordEncoder.encode("Admin@123");
+        return ResponseEntity.ok(ApiResponse.success(hash));
+    }
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<AuthResponse>> login(

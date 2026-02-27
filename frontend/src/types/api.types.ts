@@ -12,6 +12,15 @@ export interface User {
 }
 export type Role = 'OWNER' | 'MANAGER' | 'SUPERVISOR' | 'CASHIER' | 'WAITER';
 
+export interface AuthResponse {
+  accessToken: string;
+  refreshToken: string;
+  username: string;
+  fullName: string;
+  role: string;
+  maxDiscountPercent: number;
+}
+
 export interface Category { id: string; name: string; icon?: string; displayOrder: number; active: boolean; }
 export interface Product {
   id: string; sku: string; name: string; sellingPrice: number;
